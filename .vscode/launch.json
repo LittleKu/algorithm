@@ -9,7 +9,7 @@
       "type": "cppvsdbg",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/topk.exe",
+      "program": "${workspaceFolder}/algorithm.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",

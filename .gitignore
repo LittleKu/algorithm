@@ -30,3 +30,7 @@
 *.VC.db
 *_proto.xml
 *_proto_cpp.xml
+*.exe
+*.dll
+*.obj
+*.ilk
