@@ -11,7 +11,8 @@
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/algorithm.exe",
       "args": [],
-      "stopAtEntry": false,
+      "stopAtEntry": true,
+      "externalConsole": true,
       "cwd": "${fileDirname}",
       "environment": []
     }
