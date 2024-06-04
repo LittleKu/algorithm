@@ -6,7 +6,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "cl.exe /EHsc /MDd /Od /DDEBUG /D_DEBUG /Zi insert_sort/insert_sort.cc /link /DEBUG:FULL /MACHINE:X86 /OUT:algorithm.exe",
+      "command": "cl.exe /EHsc /MDd /Od /DDEBUG /D_DEBUG /Zi /I. topk/topk.cc /link /DEBUG:FULL /MACHINE:X86 /SUBSYSTEM:CONSOLE /OUT:algorithm.exe",
     }
   ]
 }

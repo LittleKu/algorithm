@@ -1,69 +1,48 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
 
-int partition(std::vector<int>& v, int low, int high) {
-  if (high == low) {
-    return low;
-  }
-  int i = low;
-  int j = high;
-  int key = v[low];
-  while (true) {
-    while (v[i] <= key) {
-      i++;
-      if (v[i] >= key) {
-        break;
-      }
-    }
-    while (v[j] >= key) {
-      j--;
-      if (v[j] <= key) {
-        break;
-      }
-    }
-    if (i >= j) {
-      break;
-    }
-    int tmp = v[i];
-    v[i] = v[j];
-    v[j] = tmp;
-  }
-  v[low] = v[j];
-  v[j] = key;
-  return j;
-}
+#include "partition/partition.hpp"
 
-void quick_sort(std::vector<int>& v, int low, int high) {
-  if (high <= low) {
-    return;
-  }
-
-  int j = partition(v, low, high);
-
-  quick_sort(v, low, j - 1);
-  quick_sort(v, j + 1, high);
-}
-
-int random_select(std::vector<int>& v, int low, int high, int k) {
+template <typename Predicate>
+int random_select(std::vector<int>& v,
+                  int low,
+                  int high,
+                  int k,
+                  Predicate&& pred) {
   if (low == high) {
     return v[low];
   }
 
-  int i = partition(v, low, high);
+  int i = partition(v, low, high, std::forward<Predicate>(pred));
   int temp = i - low + 1;
   if (temp == k) {
     return v[i];
   } else if (temp > k) {
-    return random_select(v, low, i - 1, k);
+    return random_select(v, low, i - 1, k, std::forward<Predicate>(pred));
   } else {
-    return random_select(v, i + 1, high, k - temp);
+    return random_select(v, i + 1, high, k - temp,
+                         std::forward<Predicate>(pred));
   }
 }
 
+// cl.exe /EHsc /MDd /Od /DDEBUG /D_DEBUG /Zi /I. topk/topk.cc /link /DEBUG:FULL /SUBSYSTEM:CONSOLE /MACHINE:X86 /OUT:algorithm.exe",
 int main(int argc, char** argv) {
   std::vector<int> v{12, 5, 534, 45, 468, 32, 65, 78, 25, 2, 60, 6, 1};
-  // quick_sort(v, 0, v.size() - 1);
-  int result = random_select(v, 0, v.size() - 1, 4);
+  const int k = 4;
+  int result = random_select(
+      v, 0, v.size() - 1, k,
+      [](const int left, const int right) { return left > right; });
+  std::cout << "topk:";
+  for (int i = 0; i < k; i++)
+    std::cout << v[i] << ",";
+  std::cout << "\n";
+  getchar();
+
+  /* smallest k
+  const int k = 5;
+  int result = random_select(
+      v, 0, v.size() - 1, k,
+      [](const int left, const int right) { return left < right; });
+  */
   return EXIT_SUCCESS;
 }
